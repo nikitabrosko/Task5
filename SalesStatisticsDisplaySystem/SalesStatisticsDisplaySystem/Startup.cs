@@ -7,19 +7,36 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Abstractions.Factories;
+using DAL.Abstractions.UnitOfWorks;
+using DAL.RepositoryFactories;
+using DAL.SalesDbContextFactories;
+using DAL.UnitOfWorks;
+using DatabaseLayer.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace SalesStatisticsDisplaySystem
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public IConfiguration AppConfiguration { get; set; }
+
+        public Startup(IConfiguration configuration)
         {
-            services.AddMvcCore();
+            AppConfiguration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            var connectionString = AppConfiguration.GetConnectionString("Default");
+            services.AddDbContext<DbContext, SalesDbContext>(options => 
+                options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
+            services.AddSingleton<IGenericRepositoryFactory, GenericRepositoryFactory>();
+            services.AddSingleton<ISalesDbUnitOfWork, SalesDbUnitOfWork>();
+            services.AddMvc();
+        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -27,14 +44,13 @@ namespace SalesStatisticsDisplaySystem
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
