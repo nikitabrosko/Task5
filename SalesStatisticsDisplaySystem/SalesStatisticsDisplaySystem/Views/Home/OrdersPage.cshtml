@@ -1,5 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<DatabaseLayer.Models.Order>
+
+<div class="container">
+        <h2>Customers:</h2>
+    <table>
+        <tr>
+            <td>id</td>
+            <td>Date</td>
+            <td>Sum</td>
+            <td>CustomerId</td>
+            <td>ManagerId</td>
+            <td>ProductId</td>
+        </tr>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Date</td>
+                <td>@order.Sum</td>
+                <td>@order.Customer.Id</td>
+                <td>@order.Manager.Id</td>
+                <td>@order.Product.Id</td>
+            </tr>
+        }
+    </table>
+</div>
