@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DAL.Abstractions.UnitOfWorks;
 using DatabaseLayer.Contexts;
+using DatabaseLayer.Models;
 
 namespace SalesStatisticsDisplaySystem.Controllers
 {
@@ -26,12 +27,22 @@ namespace SalesStatisticsDisplaySystem.Controllers
             return View();
         }
 
+        public IEnumerable<Customer> FetchCustomerTableData()
+        {
+            return _salesDbUoW.CustomerRepository.Get();
+        }
+
         [HttpGet]
         public IActionResult CustomersPage()
         {
             ViewBag.Title = "Customers";
 
-            return View(_salesDbUoW.CustomerRepository.Get());
+            return View();
+        }
+
+        public IEnumerable<Manager> FetchManagerTableData()
+        {
+            return _salesDbUoW.ManagerRepository.Get();
         }
 
         [HttpGet]
@@ -39,7 +50,12 @@ namespace SalesStatisticsDisplaySystem.Controllers
         {
             ViewBag.Title = "Managers";
 
-            return View(_salesDbUoW.ManagerRepository.Get());
+            return View();
+        }
+
+        public IEnumerable<Product> FetchProductTableData()
+        {
+            return _salesDbUoW.ProductRepository.Get();
         }
 
         [HttpGet]
@@ -47,7 +63,12 @@ namespace SalesStatisticsDisplaySystem.Controllers
         {
             ViewBag.Title = "Products";
 
-            return View(_salesDbUoW.ProductRepository.Get());
+            return View();
+        }
+
+        public IEnumerable<Order> FetchOrderTableData()
+        {
+            return _salesDbUoW.OrderRepository.Get();
         }
 
         [HttpGet]
@@ -55,7 +76,7 @@ namespace SalesStatisticsDisplaySystem.Controllers
         {
             ViewBag.Title = "Orders";
 
-            return View(_salesDbUoW.OrderRepository.Get());
+            return View();
         }
     }
 }
