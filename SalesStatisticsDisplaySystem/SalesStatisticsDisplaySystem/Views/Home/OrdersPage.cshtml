@@ -1,26 +1,20 @@
-﻿@model IEnumerable<DatabaseLayer.Models.Order>
-
-<div class="container">
-        <h2>Customers:</h2>
-    <table>
-        <tr>
-            <td>id</td>
-            <td>Date</td>
-            <td>Sum</td>
-            <td>CustomerId</td>
-            <td>ManagerId</td>
-            <td>ProductId</td>
-        </tr>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.Date</td>
-                <td>@order.Sum</td>
-                <td>@order.Customer.Id</td>
-                <td>@order.Manager.Id</td>
-                <td>@order.Product.Id</td>
+﻿<h2 class="text-center">Orders:</h2>
+<button class="btn btn-primary" id="btnRefreshTable">Refresh table</button>
+<div class="container-fluid">
+    <table class="col-md-8 table table-bordered table-hover table-striped table-dark">
+        <thead class="text-center">
+            <tr class="col-md-12">
+                <th>id</th>
+                <th>Date</th>
+                <th>Sum</th>
+                <th>Customer Id</th>
+                <th>Manager Id</th>
+                <th>Product Id</th>
             </tr>
-        }
+        </thead>
+        <tbody class="text-center"></tbody>
     </table>
 </div>
+
+<script src="~/jquery/jquery.min.js"></script>
+<script src="~/js/orderAjax.js"></script>
