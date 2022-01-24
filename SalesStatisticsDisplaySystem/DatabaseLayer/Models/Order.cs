@@ -12,10 +12,10 @@ namespace DatabaseLayer.Models
 
         public decimal Sum { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        public Manager Manager { get; set; }
+        public virtual Manager Manager { get; set; }
 
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
