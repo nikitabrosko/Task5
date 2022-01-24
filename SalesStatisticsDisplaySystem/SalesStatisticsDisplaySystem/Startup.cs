@@ -31,7 +31,7 @@ namespace SalesStatisticsDisplaySystem
         {
             var connectionString = AppConfiguration.GetConnectionString("Default");
             services.AddDbContext<DbContext, SalesDbContext>(options => 
-                options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
+                options.UseLazyLoadingProxies().UseSqlServer(connectionString), ServiceLifetime.Singleton);
             services.AddSingleton<IGenericRepositoryFactory, GenericRepositoryFactory>();
             services.AddSingleton<ISalesDbUnitOfWork, SalesDbUnitOfWork>();
             services.AddMvc();
